@@ -1,0 +1,79 @@
+.lexiconLayout {
+  display: grid;
+  grid-template-areas: "left right";
+  grid-template-columns: 36% 1fr;
+  height: calc(100vh - 64px);
+  @media screen and (max-width: 1279px) {
+    grid-template-areas: "left"
+                         "right";
+    grid-template-rows: initial;
+    grid-template-columns: initial;
+  }
+}
+.left {
+  grid-area: left;
+  border-right: solid 1px rgba(0,0,0,0.12);
+  display: flex;
+  flex-direction: column;
+  @media screen and (max-width: 1279px) {
+    border-right: none;
+  }
+}
+.right {
+  grid-area: right;
+  @media screen and (max-width: 1279px) {
+    border-top: solid 1px rgba(0,0,0,0.12);
+  }
+  display: grid;
+  grid-template-columns: 30% 30% 40%;
+  grid-template-areas: "lc lc pc"
+                       "wc wc ht";
+  @media screen and (max-width: 1279px) {
+    grid-template-areas: "lc"
+                         "pc"
+                         "wc"
+                         "ht";
+    grid-template-rows: initial;
+    grid-template-columns: initial;
+  }
+}
+.linesChartContainer {
+  grid-area: lc;
+  padding-right: 20px;
+  position: relative;
+}
+.pieChartContainer {
+  grid-area: pc;
+  padding: 20px 20px 0;
+}
+.wordCloudChartContainer {
+  position: relative;
+  grid-area: wc;
+  padding: 20px 40px 0;
+}
+.histogramChartContainer {
+  grid-area: ht;
+  padding: 20px 20px 0 5px;
+}
+.chartContainer {
+  padding-top: 20px;
+  border-right: 1px solid rgba(0,0,0,0.12);
+  border-bottom: 1px solid rgba(0,0,0,0.12);
+}
+.sectionTitle {
+  font-size: 18px;
+  text-align: center;
+  font-weight: 500;
+  opacity: 0.75;;
+  max-width: 180px;
+  margin: 0 auto;
+}
+.chart {
+  width: 90%;
+}
+.selectContainer {
+  position: absolute;
+  max-width: 140px;
+  top: 20px;
+  right: 20px;
+}

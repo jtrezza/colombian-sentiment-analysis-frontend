@@ -5,14 +5,22 @@
   "dependencies": {
     "@emotion/cache": "latest",
     "@emotion/react": "latest",
-    "@emotion/styled": "latest",
     "@emotion/server": "latest",
+    "@emotion/styled": "latest",
+    "@mui/icons-material": "^5.2.0",
     "@mui/material": "latest",
+    "@mui/x-data-grid": "^5.2.2",
+    "c3": "^0.7.20",
     "clsx": "latest",
-    "next": "latest",
+    "d3": "^7.3.0",
+    "next": "^12.0.7",
+    "plotly.js": "^2.7.0",
     "prop-types": "latest",
     "react": "latest",
-    "react-dom": "latest"
+    "react-dom": "latest",
+    "react-plotly.js": "^2.5.1",
+    "react-tagcloud": "^2.1.1",
+    "sass": "^1.44.0"
   },
   "scripts": {
     "dev": "next",
