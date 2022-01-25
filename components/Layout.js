@@ -14,6 +14,8 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import BubbleChartIcon from '@mui/icons-material/BubbleChart';
 import AbcIcon from '@mui/icons-material/Abc';
+import DataArrayIcon from '@mui/icons-material/DataArray';
+import PsychologyIcon from '@mui/icons-material/Psychology';
 import StorageIcon from '@mui/icons-material/Storage';
 import CssBaseline from '@mui/material/CssBaseline';
 
@@ -46,7 +48,7 @@ export default function Layout(props) {
               }}
               primary="Inicio" />
           </ListItem>
-          <ListItem button selected={router.pathname === '/explore-data'} onClick={()=>handleClick('explore-data')}>
+          <ListItem button selected={router.pathname === '/'} onClick={()=>handleClick('/')}>
             <ListItemIcon>
               <StorageIcon />
             </ListItemIcon>
@@ -63,17 +65,29 @@ export default function Layout(props) {
               }}
               primary="Técnicas" />
           </ListItem>
-          <ListItem button selected={router.pathname === '/lexicon'} onClick={()=>handleClick('lexicon')}>
+          <ListItem button selected={router.pathname === '/mlp'} onClick={()=>handleClick('mlp')}>
             <ListItemIcon>
-              <AbcIcon />
+              <PsychologyIcon />
             </ListItemIcon>
-            <ListItemText primary="Lexicon" />
+            <ListItemText primary="MLP" />
+          </ListItem>
+          <ListItem button selected={router.pathname === '/svm'} onClick={()=>handleClick('svm')}>
+            <ListItemIcon>
+              <DataArrayIcon />
+            </ListItemIcon>
+            <ListItemText primary="SVM" />
           </ListItem>
           <ListItem button selected={router.pathname === '/classifier'} onClick={()=>handleClick('classifier')}>
             <ListItemIcon>
               <BubbleChartIcon />
             </ListItemIcon>
-            <ListItemText primary="Classifier" />
+            <ListItemText primary="K-means" />
+          </ListItem>
+          <ListItem button selected={router.pathname === '/lexicon'} onClick={()=>handleClick('lexicon')}>
+            <ListItemIcon>
+              <AbcIcon />
+            </ListItemIcon>
+            <ListItemText primary="Lexicon" />
           </ListItem>
       </List>
     </div>

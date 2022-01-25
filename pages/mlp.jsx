@@ -14,9 +14,7 @@ import Dialog from '../components/Dialog';
 
 /* Icons */
 import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
-import SentimentDissatisfiedIcon from '@mui/icons-material/SentimentDissatisfied';
 import SentimentNeutralIcon from '@mui/icons-material/SentimentNeutral';
-import SentimentSatisfiedAltIcon from '@mui/icons-material/SentimentSatisfiedAlt';
 import SentimentVerySatisfiedIcon from '@mui/icons-material/SentimentVerySatisfied';
 
 const ChartNoSSR = dynamic(
@@ -43,11 +41,11 @@ export default function Index() {
   const [sentCloud, setSentCloud] = useState('pos');
   const [lineChart, setLineChart] = useState('avg');
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [evaluateResults, setEvaluateResults] = useState({tag: 'neutral', rating: 0});
+  const [evaluateResults, setEvaluateResults] = useState({tag: 'neu', rating: 0});
 
   useEffect(() => {
     setLoading(true)
-    fetch(`${process.env.NEXT_PUBLIC_SERVER_HOST}/lexicon/chart_data`)
+    fetch(`${process.env.NEXT_PUBLIC_SERVER_HOST}/mlp/chart_data`)
       .then((res) => res.json())
       .then((data) => {
         setChartData(data);
@@ -61,7 +59,7 @@ export default function Index() {
       return;
     }
     setEvaluating(true);
-    fetch(`${process.env.NEXT_PUBLIC_SERVER_HOST}/lexicon/evaluate?query=${evaluateText}`)
+    fetch(`${process.env.NEXT_PUBLIC_SERVER_HOST}/mlp/evaluate?query=${evaluateText}`)
       .then((res) => res.json())
       .then((data) => {
         setEvaluateResults(data)
@@ -121,11 +119,9 @@ export default function Index() {
   }
 
   const resultsDict = {
-    "very_dissatisfied": {face: <SentimentVeryDissatisfiedIcon style={{color: '#bb0f0e'}} />, tag: 'Muy negativo'},
-    "dissatisfied": {face: <SentimentDissatisfiedIcon style={{color: '#bb0f0e'}} />, tag: 'Negativo'},
-    "neutral": {face: <SentimentNeutralIcon style={{color: '#1f77b4'}} />, tag: 'Neutral'},
-    "satisfied": {face: <SentimentSatisfiedAltIcon style={{color: '#2f9f2c'}} />, tag: 'Positivo'},
-    "very_satisfied": {face: <SentimentVerySatisfiedIcon style={{color: '#2f9f2c'}} />, tag: 'Muy Positivo'}
+    "neg": {face: <SentimentVeryDissatisfiedIcon style={{color: '#bb0f0e'}} />, tag: 'Negativo'},
+    "neu": {face: <SentimentNeutralIcon style={{color: '#1f77b4'}} />, tag: 'Neutral'},
+    "pos": {face: <SentimentVerySatisfiedIcon style={{color: '#2f9f2c'}} />, tag: 'Positivo'}
   }
   
   return (
@@ -136,8 +132,8 @@ export default function Index() {
         message="Por favor escribe una frase."
       />
       <Box className={styles.left} sx={{paddingTop: 2}}>
-        <h1 style={{paddingLeft: 20, margin: '20px 0 0'}}>Lexicon</h1>
-        <p style={{padding: '0 20px', marginBottom: 0}}>En esta página se muestran los resultados obtenidos haciendo uso de una adaptación de la herramienta vaderSentiment.</p>
+        <h1 style={{paddingLeft: 20, margin: '20px 0 0'}}>Multi-Layer Perceptron (MLP)</h1>
+        <p style={{padding: '0 20px', marginBottom: 0}}>En esta página se muestran los resultados obtenidos entrenando una MLP neural network utilizando scikit-learn.</p>
         <p style={{padding: '0 20px'}}>
           Los resultados obtenidos fueron los siguientes
           <ul>
@@ -186,8 +182,6 @@ export default function Index() {
                     <Box sx={{paddingLeft: 1, display: 'inline'}}>{resultsDict[evaluateResults.tag].tag}</Box>
                   </Box>
                   <Box sx={{display: 'flex'}}>
-                    Puntaje:
-                    <Box sx={{paddingLeft: 1, display: 'inline'}}>{evaluateResults.rating}</Box>
                   </Box>
                 </Box>
               </div>

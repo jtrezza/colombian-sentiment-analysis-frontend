@@ -43,7 +43,7 @@ export default function Index() {
   const [sentCloud, setSentCloud] = useState('pos');
   const [lineChart, setLineChart] = useState('avg');
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [evaluateResults, setEvaluateResults] = useState({tag: 'neutral', rating: 0});
+  const [evaluateResults, setEvaluateResults] = useState({tag: 'neu', rating: 0});
 
   useEffect(() => {
     setLoading(true)
@@ -73,8 +73,7 @@ export default function Index() {
   const pieData = chartData ? {
     columns: [
       ['Positivo', chartData.pie.pos],
-      ['Negativo', chartData.pie.neg],
-      ['Neutral', chartData.pie.neu],
+      ['Negativo', chartData.pie.neg]
     ],
     type : 'pie'
   } : {};
@@ -120,21 +119,11 @@ export default function Index() {
       }
     }
   }
-  const histogramData = chartData ? {
-    x: 'x',
-    columns: [
-      ['x', ...chartData.histogram.division],
-      ['Histograma', ...chartData.histogram.count]
-    ],
-    type: 'bar'
-  } : {};
 
   const resultsDict = {
-    "very_dissatisfied": {face: <SentimentVeryDissatisfiedIcon style={{color: '#bb0f0e'}} />, tag: 'Muy negativo'},
-    "dissatisfied": {face: <SentimentDissatisfiedIcon style={{color: '#bb0f0e'}} />, tag: 'Negativo'},
-    "neutral": {face: <SentimentNeutralIcon style={{color: '#1f77b4'}} />, tag: 'Neutral'},
-    "satisfied": {face: <SentimentSatisfiedAltIcon style={{color: '#2f9f2c'}} />, tag: 'Positivo'},
-    "very_satisfied": {face: <SentimentVerySatisfiedIcon style={{color: '#2f9f2c'}} />, tag: 'Muy Positivo'}
+    "neg": {face: <SentimentDissatisfiedIcon style={{color: '#bb0f0e'}} />, tag: 'Negativo'},
+    "neu": {face: <SentimentNeutralIcon style={{color: '#1f77b4'}} />, tag: 'Neutral'},
+    "pos": {face: <SentimentSatisfiedAltIcon style={{color: '#2f9f2c'}} />, tag: 'Positivo'},
   }
   
   return (
@@ -145,9 +134,26 @@ export default function Index() {
         message="Por favor escribe una frase."
       />
       <Box className={styles.left} sx={{paddingTop: 2}}>
-        <h1 style={{paddingLeft: 20, margin: '20px 0 0'}}>Classifier</h1>
-        <p style={{padding: '0 20px', marginBottom: 0}}>En esta página se muestran los resultados obtenidos mediante el método k-means de la librería scikit-learn.</p>
-        <p style={{padding: '0 20px'}}>La métrica utilizada para medir el desempeño fue <span className={styles.pre}>mse</span> (Mean Squared Error), con un resultado de: {chartData && chartData.metrics ? chartData.metrics.mse.toFixed(4) : '-'}</p>
+        <h1 style={{paddingLeft: 20, margin: '20px 0 0'}}>K-means Classifier</h1>
+        <p style={{padding: '0 20px', marginBottom: 0}}>En esta página se muestran los resultados obtenidos mediante un modelo k-means entrenado con scikit-learn.</p>
+        <p style={{padding: '0 20px'}}>
+          Los resultados obtenidos fueron los siguientes
+          <ul>
+            <li>
+              <b>Positivos:</b><br />
+              Precision: {chartData && chartData.metrics ? chartData.metrics.pos.precision.toFixed(4) : '-'}<br />
+              Recall: {chartData && chartData.metrics ? chartData.metrics.pos.recall.toFixed(4) : '-'}<br />
+              F1-score: {chartData && chartData.metrics ? chartData.metrics.pos.f1.toFixed(4) : '-'}<br />
+            </li>
+            <li>
+            <b>Negativos:</b><br />
+              Precision: {chartData && chartData.metrics ? chartData.metrics.neg.precision.toFixed(4) : '-'}<br />
+              Recall: {chartData && chartData.metrics ? chartData.metrics.neg.recall.toFixed(4) : '-'}<br />
+              F1-score: {chartData && chartData.metrics ? chartData.metrics.neg.f1.toFixed(4) : '-'}<br />
+            </li>
+          </ul>
+          
+        </p>
         <Box mb={4} />
         <h2 className={styles.sectionTitle} style={{marginBottom: 12}}>Evalúa una frase</h2>
         <Box
@@ -174,12 +180,10 @@ export default function Index() {
                 <h3>Resultado</h3>
                 <Box sx={{display: 'flex', justifyContent: 'space-between'}}>
                   <Box sx={{display: 'flex'}}>
-                    {resultsDict[evaluateResults.tag].face}
-                    <Box sx={{paddingLeft: 1, display: 'inline'}}>{resultsDict[evaluateResults.tag].tag}</Box>
+                    {resultsDict[evaluateResults.tag] ? resultsDict[evaluateResults.tag].face : null}
+                    <Box sx={{paddingLeft: 1, display: 'inline'}}>{resultsDict[evaluateResults.tag] ? resultsDict[evaluateResults.tag].tag : null}</Box>
                   </Box>
                   <Box sx={{display: 'flex'}}>
-                    Puntaje:
-                    <Box sx={{paddingLeft: 1, display: 'inline'}}>{evaluateResults.rating.toFixed(4)}</Box>
                   </Box>
                 </Box>
               </div>
@@ -268,11 +272,6 @@ export default function Index() {
                 />
               </div>
               <div className={cn(styles.chartContainer, styles.histogramChartContainer)}>
-                <h2 className={styles.sectionTitle}>Histograma</h2>
-                <ChartNoSSR
-                  id="histogram"
-                  chartProps={{data: histogramData, bar: {width: 16}}}
-                />
               </div>
             </>
           ) : null
