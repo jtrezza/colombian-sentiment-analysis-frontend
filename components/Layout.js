@@ -2,6 +2,7 @@ import { useState } from 'react';
 import Drawer from '@mui/material/Drawer';
 import AppBar from '@mui/material/AppBar';
 import Typography from '@mui/material/Typography';
+import styles from '../styles/layout.module.scss';
 
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -34,6 +35,13 @@ export default function Layout(props) {
 
   const handleClick = (href) => {
     router.push(href)
+  }
+  const signOut = () => {
+    if (localStorage) {
+      localStorage.removeItem('access_token');
+      localStorage.removeItem('token_type');
+      location.href = '/signin';
+    }
   }
 
   const drawer = (
@@ -98,7 +106,7 @@ export default function Layout(props) {
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
       <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
-        <Toolbar>
+        <Toolbar sx={{display: 'flex', justifyContent: 'space-between'}}>
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -111,6 +119,9 @@ export default function Layout(props) {
           <Typography variant="h6" noWrap component="div">
             Análisis de Sentimientos
           </Typography>
+          <span className={styles.link} onClick={signOut}>
+            Cerrar Sessión
+          </span>
         </Toolbar>
       </AppBar>
       <Box

@@ -77,3 +77,33 @@
   top: 20px;
   right: 20px;
 }
+.formPage {
+  text-align: center;
+  background-color: #1f77b4;
+  height: 100vh;
+}
+.form {
+  max-width: 330px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  background: white;
+  padding: 20px;
+  margin-top: 30px;
+  border-radius: 6px;
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+}
+.formTitle {
+  color: white;
+  font-weight: 700;
+}
+.formError {
+  display: flex;
+  justify-content: flex-end;
+}
+.link {
+  &:hover {
+    cursor: pointer;
+    text-decoration: underline;
+  }
+}

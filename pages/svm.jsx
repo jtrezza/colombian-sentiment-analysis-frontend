@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic'
 import { TagCloud } from 'react-tagcloud';
 import styles from '../styles/layout.module.scss';
+import axios from 'axios';
 
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
@@ -14,9 +15,7 @@ import Dialog from '../components/Dialog';
 
 /* Icons */
 import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
-import SentimentDissatisfiedIcon from '@mui/icons-material/SentimentDissatisfied';
 import SentimentNeutralIcon from '@mui/icons-material/SentimentNeutral';
-import SentimentSatisfiedAltIcon from '@mui/icons-material/SentimentSatisfiedAlt';
 import SentimentVerySatisfiedIcon from '@mui/icons-material/SentimentVerySatisfied';
 
 const ChartNoSSR = dynamic(
@@ -46,13 +45,22 @@ export default function Index() {
   const [evaluateResults, setEvaluateResults] = useState({tag: 'neu', rating: 0});
 
   useEffect(() => {
-    setLoading(true)
-    fetch(`${process.env.NEXT_PUBLIC_SERVER_HOST}/svm/chart_data`)
-      .then((res) => res.json())
-      .then((data) => {
+    if (window) {
+      const token_type = localStorage.getItem('token_type');
+      const access_token = localStorage.getItem('access_token');
+      if (!access_token || !token_type) {
+        location.href = '/signin';
+      }
+    }
+    setLoading(true);
+    axios.get(`${process.env.NEXT_PUBLIC_SERVER_HOST}/svm/chart_data`, {
+      headers: {
+        'Authorization': `${token_type} ${access_token}`
+      }
+    }).then(({data}) => {
         setChartData(data);
         setLoading(false)
-      })
+      });
   }, []);
 
   const handleEvaluate = () => {

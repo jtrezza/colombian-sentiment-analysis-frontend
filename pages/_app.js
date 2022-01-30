@@ -14,6 +14,9 @@ const clientSideEmotionCache = createEmotionCache();
 
 export default function MyApp(props) {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
+  const isLayoutNeeded = !['/signin', '/signup'].includes(props.router.pathname);
+
+  const LayoutComponent = isLayoutNeeded ? Layout : React.Fragment;
 
   return (
     <CacheProvider value={emotionCache}>
@@ -24,9 +27,9 @@ export default function MyApp(props) {
       <ThemeProvider theme={theme}>
         {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
         <CssBaseline />
-        <Layout>
+        <LayoutComponent>
           <Component {...pageProps} />
-        </Layout>
+        </LayoutComponent>
       </ThemeProvider>
     </CacheProvider>
   );
