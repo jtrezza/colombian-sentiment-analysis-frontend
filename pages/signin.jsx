@@ -95,7 +95,7 @@ export default function SignIn() {
         )}
         <Box mt={2} />
         <Button variant='contained' type="submit" disabled={formik.isSubmitting}>
-          {formik.isSubmitting ? 'Enviando...' : 'Crear'}
+          {formik.isSubmitting ? 'Enviando...' : 'Entrar'}
         </Button>
         <Box mt={2} display="flex" justifyContent="flex-end">
           <Link href="/signup">
