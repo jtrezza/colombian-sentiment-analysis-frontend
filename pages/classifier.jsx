@@ -47,12 +47,10 @@ export default function Index() {
   const [evaluateResults, setEvaluateResults] = useState({tag: 'neu', rating: 0});
 
   useEffect(() => {
-    if (window) {
-      const token_type = localStorage.getItem('token_type');
-      const access_token = localStorage.getItem('access_token');
-      if (!access_token || !token_type) {
-        location.href = '/signin';
-      }
+    const token_type = localStorage.getItem('token_type');
+    const access_token = localStorage.getItem('access_token');
+    if (!access_token || !token_type) {
+      location.href = '/signin';
     }
     setLoading(true);
     axios.get(`${process.env.NEXT_PUBLIC_SERVER_HOST}/kmeans/chart_data`, {
@@ -66,14 +64,21 @@ export default function Index() {
   }, []);
 
   const handleEvaluate = () => {
+    const token_type = localStorage.getItem('token_type');
+    const access_token = localStorage.getItem('access_token');
+    if (!access_token || !token_type) {
+      location.href = '/signin';
+    }
     if (!evaluateText) {
       setDialogOpen(true);
       return;
     }
     setEvaluating(true);
-    fetch(`${process.env.NEXT_PUBLIC_SERVER_HOST}/kmeans/evaluate?query=${evaluateText}`)
-      .then((res) => res.json())
-      .then((data) => {
+    axios.get(`${process.env.NEXT_PUBLIC_SERVER_HOST}/kmeans/evaluate?query=${evaluateText}`, {
+      headers: {
+        'Authorization': `${token_type} ${access_token}`
+      }
+    }).then(({data}) => {
         setEvaluateResults(data)
         setEvaluating(false);
         setShowResults(true);

@@ -17,12 +17,10 @@ export default function Index() {
   const [rows, setRows] = useState([]);
 
   const loadMore = () => {
-    if (window) {
-      const token_type = localStorage.getItem('token_type');
-      const access_token = localStorage.getItem('access_token');
-      if (!access_token || !token_type) {
-        location.href = '/signin';
-      }
+    const token_type = localStorage.getItem('token_type');
+    const access_token = localStorage.getItem('access_token');
+    if (!access_token || !token_type) {
+      location.href = '/signin';
     }
     setLoading(true);
     axios.get(`${process.env.NEXT_PUBLIC_SERVER_HOST}/data_clean/?skip=${skip}&limit=${limit}`, {
@@ -39,12 +37,10 @@ export default function Index() {
   }
 
   useEffect(() => {
-    if (window) {
-      const token_type = localStorage.getItem('token_type');
-      const access_token = localStorage.getItem('access_token');
-      if (!access_token || !token_type) {
-        location.href = '/signin';
-      }
+    const token_type = localStorage.getItem('token_type');
+    const access_token = localStorage.getItem('access_token');
+    if (!access_token || !token_type) {
+      location.href = '/signin';
     }
     setLoading(true);
     axios.get(`${process.env.NEXT_PUBLIC_SERVER_HOST}/data_clean/?skip=${skip}&limit=${limit}`, {
