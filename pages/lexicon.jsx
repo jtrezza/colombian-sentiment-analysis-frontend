@@ -53,7 +53,7 @@ export default function Index() {
       location.href = '/signin';
     }
     setLoading(true);
-    axios.get(`${process.env.NEXT_PUBLIC_SERVER_HOST}/kmeans/chart_data`, {
+    axios.get(`${process.env.NEXT_PUBLIC_SERVER_HOST}/lexicon/chart_data`, {
       headers: {
         'Authorization': `${token_type} ${access_token}`
       }
